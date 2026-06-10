@@ -29,8 +29,15 @@ public class ItemController {
     public Item updateItem(@PathVariable Long id, @RequestBody Item item) {
         return itemService.updateItem(id, item);
     }
+
+    @GetMapping("/")
+    public String home() {
+        return "Inventory API is running";
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> handleNotFound(RuntimeException ex){
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
 }
