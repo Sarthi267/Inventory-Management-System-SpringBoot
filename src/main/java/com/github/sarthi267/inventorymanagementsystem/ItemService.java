@@ -30,5 +30,12 @@ public class ItemService {
         updatedItem.setId(id);
         return itemRepository.save(updatedItem);
     }
+    public Item findById(Long id) {
+       return itemRepository.findById(id)
+               .orElseThrow(() -> new RuntimeException("Item does not exist with id: " + id));
+    }
+    public Item saveItem(Long id, Item item) {
+        return itemRepository.save(item);
+    }
 
 }
