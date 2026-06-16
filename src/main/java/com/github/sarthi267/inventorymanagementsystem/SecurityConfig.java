@@ -1,5 +1,6 @@
 package com.github.sarthi267.inventorymanagementsystem;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
 
     @Bean
@@ -30,6 +33,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/items" ).hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PUT, "/items/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/items/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/inventory").hasAnyRole("ADMIN", "USER")
+                        .requestMatchers("/login/**", "/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
@@ -37,7 +42,14 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .defaultSuccessUrl("/inventory", true)
                         .permitAll()
-                );
+                )
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .defaultSuccessUrl("/inventory", true)
+                        .failureUrl("/login?error")
+        );
                 return http.build();
     }
 
