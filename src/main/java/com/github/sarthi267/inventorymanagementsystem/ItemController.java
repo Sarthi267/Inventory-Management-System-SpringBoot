@@ -29,6 +29,10 @@ public class ItemController {
     public Item updateItem(@PathVariable Long id, @RequestBody Item item) {
         return itemService.updateItem(id, item);
     }
+    @GetMapping("/{id}")
+    public Item findById(@PathVariable Long id) {
+        return itemService.findById(id);
+    }
 
     @GetMapping("/")
     public String home() {
