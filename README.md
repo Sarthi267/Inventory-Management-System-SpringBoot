@@ -14,8 +14,8 @@ This project serves as a beginner API built with the purpose to further my under
 cd Inventory-Management-System-SpringBoot
 3. Build the project:  
 mvn clean install 
-4. Copy application-example.properties to application.properties
-      and fill in your GitHub OAuth2 credentials before running.
+4. Copy application-example.properties and application-test-examples.properties to application.properties and application-test.properties respectively
+      and fill in your GitHub OAuth2 credentials and username before running.
 5. Run the application:  
 mvn spring-boot:run
 6. API is available at:  
@@ -55,3 +55,4 @@ DELETE /items/{id} - delete an item by id (ADMIN only)
 - H2 database is created automatically on first run  
 - Data persists between runs in the data/ folder
 - You can access the H2 database without creating an account
+

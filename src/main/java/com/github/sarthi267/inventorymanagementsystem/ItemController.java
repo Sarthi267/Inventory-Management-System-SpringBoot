@@ -1,5 +1,6 @@
 package com.github.sarthi267.inventorymanagementsystem;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class ItemController {
         return itemService.getAllItems();
     }
     @PostMapping
-    public Item addItem(@RequestBody Item item) {
+    public Item addItem(@Valid @RequestBody Item item) {
         return itemService.addItem(item);
     }
     @DeleteMapping("/{id}")

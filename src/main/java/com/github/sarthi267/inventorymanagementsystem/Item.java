@@ -1,6 +1,9 @@
 package com.github.sarthi267.inventorymanagementsystem;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "items")
@@ -8,8 +11,11 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+    @Min(value = 0, message = "Quantity cannot be negative")
     private int quantity;
+    @Positive(message = "Price must be positive")
     private double price;
     public Item() {}
 
@@ -18,7 +24,16 @@ public class Item {
         this.quantity = quantity;
         this.price = price;
     }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
+public Category getCategory() {
+    return category;
+}
+public void setCategory(Category category) {
+    this.category = category;
+}
 public  Long getId() {
 	return id;
 }
