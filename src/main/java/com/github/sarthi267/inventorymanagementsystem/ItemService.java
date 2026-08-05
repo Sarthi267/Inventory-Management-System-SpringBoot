@@ -2,6 +2,7 @@ package com.github.sarthi267.inventorymanagementsystem;
 
 
 
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,9 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
+    @Autowired
+    private CategoryRepository categoryRepository;
+
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
 
     public List<Item> getAllItems() {
@@ -28,6 +32,7 @@ public class ItemService {
        }
        return items;
     }
+    @Transactional
     public Item addItem(Item item) {
         logger.info("Adding new item: {}", item.getName());
         return itemRepository.save(item);
