@@ -1,7 +1,6 @@
 package com.github.sarthi267.inventorymanagementsystem;
 
 import org.springframework.ui.Model;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,8 +11,12 @@ import java.util.List;
 
 @Controller
 public class ViewController {
-    @Autowired
-    private ItemService itemService;
+
+    private final ItemService itemService;
+
+    public ViewController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/inventory")
     public String view(Model model) {
