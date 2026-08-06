@@ -45,12 +45,12 @@ public class ItemIntegrationTest {
     @Transactional
     void shouldGetItemAfterCreation() throws Exception {
         String jsonBody = """
-                { 
-                    "name": "laptop", 
+                {\s
+                    "name": "laptop",\s
                     "quantity":5,
-                    "price": 999.99 
+                    "price": 999.99\s
                 }
-                """;
+               \s""";
 
         mockMvc.perform(post("/items")
                         .with(user("admin").password("password123").roles("ADMIN"))
@@ -85,7 +85,7 @@ public class ItemIntegrationTest {
 
     }
     @Test
-    void shouldRollbackDatabaseChangesWhenServiceThrowsException() throws Exception {
+    void shouldRollbackDatabaseChangesWhenServiceThrowsException() {
         long initialCount = itemRepository.count();
 
         Item invalidItem = new Item();
@@ -94,9 +94,7 @@ public class ItemIntegrationTest {
         invalidItem.setQuantity(-5);
         invalidItem.setPrice(-999.99);
 
-        assertThrows(Exception.class, () -> {
-            itemService.saveItem(1L, invalidItem);
-        });
+        assertThrows(Exception.class, () -> itemService.saveItem(invalidItem));
         assertThat(itemRepository.count()).isEqualTo(initialCount);
     }
     @Test

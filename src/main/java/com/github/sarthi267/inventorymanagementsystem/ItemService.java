@@ -5,7 +5,6 @@ package com.github.sarthi267.inventorymanagementsystem;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +14,13 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final ItemRepository itemRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(ItemService.class);
+
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     public List<Item> getAllItems() {
         logger.info("Fetching all items");
@@ -65,11 +64,9 @@ public class ItemService {
         }
         return item;
     }
-    public Item saveItem(Long id, Item item) {
-        return itemRepository.save(item);
+    public void saveItem(Item item) {
+        itemRepository.save(item);
     }
-
-
 
 
 }

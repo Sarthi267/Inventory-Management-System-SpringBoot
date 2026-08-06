@@ -19,13 +19,13 @@ public class InventoryIntegrationTestContainer {
 
     @Container
     @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer("postgres:16-alpine");
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:16-alpine");
 
     @Autowired
     private ItemRepository itemRepository;
 
     @Test
-    @DisplayName("Should spin up Docker container and save item into PostgreSQL datebase")
+    @DisplayName("Should spin up Docker container and save item into PostgreSQL database")
     void testSaveAndRetrieveItem(){
         Item newItem = new Item("Laptop", 5, 999.99);
         Item savedItem = itemRepository.save(newItem);

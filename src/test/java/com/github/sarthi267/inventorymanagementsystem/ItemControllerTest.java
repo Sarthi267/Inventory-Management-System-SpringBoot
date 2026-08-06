@@ -53,10 +53,10 @@ public class ItemControllerTest {
     @WithMockUser
     void shouldCreateItem() throws Exception {
         String jsonBody = """
-                { 
-                    "name": "laptop", 
+                {
+                    "name": "laptop",
                     "quantity":5,
-                    "price": 999.99 
+                    "price": 999.99
                 }
                 """;
 

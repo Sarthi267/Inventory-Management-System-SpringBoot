@@ -1,7 +1,6 @@
 package com.github.sarthi267.inventorymanagementsystem;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -9,8 +8,11 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping
     public List<Item> getAllItems() {

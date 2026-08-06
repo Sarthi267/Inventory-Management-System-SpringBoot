@@ -43,7 +43,7 @@ public class ViewController {
     }
     @PostMapping("/items/edit/{id}")
     public String editItem(@PathVariable Long id, Item item) {
-        itemService.saveItem(id, item);
+        itemService.updateItem(id, item);
         return "redirect:/inventory";
     }
     @GetMapping("/")

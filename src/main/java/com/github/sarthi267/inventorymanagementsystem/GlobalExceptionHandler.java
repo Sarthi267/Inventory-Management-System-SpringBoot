@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ProblemDetail> handleValidationException
-            (MethodArgumentNotValidException ex, HttpServletRequest request) {
+            (MethodArgumentNotValidException ignoredEx, HttpServletRequest request) {
         ProblemDetail problem = ProblemDetail
                 .forStatusAndDetail(HttpStatus.BAD_REQUEST,
                         "Validation failed for one or more fields");

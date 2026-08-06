@@ -36,7 +36,7 @@ public class ItemServiceTest {
         when(itemRepository.findAllWithCategory()).thenReturn(List.of(item));
         List<Item> result = itemService.getAllItems();
         assertThat(result).hasSize(1);
-        assertThat(result.get(0).getName()).isEqualTo("test");
+        assertThat(result.getFirst().getName()).isEqualTo("test");
     }
     @Test
     void shouldThrowWhenItemNotFound(){
