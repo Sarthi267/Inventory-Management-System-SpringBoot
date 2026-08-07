@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
 
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) {
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService) throws Exception{
         this.customOAuth2UserService = customOAuth2UserService;
     }
 
@@ -39,7 +39,18 @@ public class SecurityConfig {
                         .requestMatchers("/login/**", "/oauth2/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                .headers(headers -> headers
+                        .contentTypeOptions(Customizer.withDefaults())
+                        .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+                        .httpStrictTransportSecurity(hsts -> hsts
+                                .includeSubDomains(true)
+                                .maxAgeInSeconds(3253600))
+                        .contentSecurityPolicy(csp -> csp
+                                .policyDirectives("default-src 'self'; " +
+                                        "script-src 'self'; " +
+                                        "style-src 'self' https://cdn.jsdelivr.net; " +
+                                        "img-src 'self' data:;"))
+                )
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(form -> form
                         .defaultSuccessUrl("/inventory", true)
@@ -50,13 +61,13 @@ public class SecurityConfig {
                                 .userService(customOAuth2UserService)
                         )
                         .defaultSuccessUrl("/inventory", true)
-                        .failureUrl("/login?error")
-        );
+                        .failureUrl("/login?error"));
                 return http.build();
     }
 
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
         return config.getAuthenticationManager();
     }
 }
